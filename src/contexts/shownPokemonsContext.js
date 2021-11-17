@@ -24,13 +24,28 @@ export function ShownPokemonsProvider(props) {
         toLocalStorage(shownPokemon.map(pokemon => pokemon.id));
     }, [shownPokemon]);
 
-    const addPokemon = useCallback(async id => {
+    const addPokemon = useCallback(id => {
+        async function getPokemonData(id) {
+            console.log(`getPokemonData ${id}`);
+            if (!shownPokemon.some(pokemon => pokemon.id === id)) {
+                const pokemon = await fetchOnePokemon(id);
+                console.log(`getPokemonData ${id} fetchOnePokemon done`);
+                setShownPokemon(shownPokemon => [...shownPokemon, pokemon].sort((a, b) => Number(a) - Number(b)));
+            }
+        }
+
+        console.log(`add ${id}`);
+        getPokemonData(id);
+        console.log(`add ${id} done`);
+    }, [shownPokemon, setShownPokemon]);
+
+    /*const addPokemon = useCallback(async id => {
         console.log(`add ${id}`);
         if (!shownPokemon.some(pokemon => pokemon.id === id)) {
             const pokemon = await fetchOnePokemon(id)
             setShownPokemon(shownPokemon => [...shownPokemon, pokemon].sort((a, b) => Number(a) - Number(b)));
         }
-    }, [shownPokemon, setShownPokemon]);
+    }, [shownPokemon, setShownPokemon]);*/
 
     const removePokemon = useCallback(id => {
         console.log(`remove ${id}`);
