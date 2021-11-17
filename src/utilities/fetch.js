@@ -1,10 +1,16 @@
 function getImage(data) {
     return data.sprites.other["official-artwork"].front_default
 }
-export async function fetchOnePokemon(id) {
+/*export async function fetchOnePokemon(id) {
     console.log(`---fetch one ${id} `)
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-    console.log(`---fetch one ${id} done`)
+    console.log(`---fetch one ${id} done`)*/
+
+export async function fetchOnePokemon(id) {
+    console.log(`---fetch one ${id} `)
+    //const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+    const response = await fetch(`https://vp-books.herokuapp.com/api/slowpokemon/${id}`);
+    console.log(`---fetch one ${id} done`);
     const data = await response.json();
     console.log(`---fetch one ${id} done `, {data})
     return {
