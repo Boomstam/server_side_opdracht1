@@ -1,7 +1,7 @@
 export function fromLocalStorage() {
-    return JSON.parse(localStorage.getItem("pokemonIds")) || [];
+    return JSON.parse(localStorage.getItem("currentDeck")) || [];
 }
 
-export function toLocalStorage(shownPokemonIds) {
-    localStorage.setItem("pokemonIds", JSON.stringify(shownPokemonIds));
+export function toLocalStorage(deckID) {
+    localStorage.setItem("currentDeck", JSON.stringify(deckID));
 }

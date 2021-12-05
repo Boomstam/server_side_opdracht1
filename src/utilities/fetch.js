@@ -1,36 +1,16 @@
-function getImage(data) {
-    return data.sprites.other["official-artwork"].front_default
-}
-/*export async function fetchOnePokemon(id) {
-    console.log(`---fetch one ${id} `)
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-    console.log(`---fetch one ${id} done`)*/
+import {fromLocalStorage} from "./localStorage";
 
-export async function fetchOnePokemon(id) {
-    console.log(`---fetch one ${id} `)
-    //const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-    const response = await fetch(`https://vp-books.herokuapp.com/api/slowpokemon/${id}`);
-    console.log(`---fetch one ${id} done`);
+export async function fetchDeck(deckCount = 1) {
+    const response = await fetch(`http://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=` + deckCount);
     const data = await response.json();
-    console.log(`---fetch one ${id} done `, {data})
     return {
-        id: String(data.id),
-        name: data.name,
-        image: getImage(data),
-        types: data.types.map(t => t.type.name).join(", ")
-    };
+        id: data.deck_id
+    }
 }
 
-export async function fetchAllPokemon() {
-    function getIdFromUrl(url) {
-        const urlParts = url.split("/");
-        return urlParts[urlParts.length - 2];
-    }
-
-    console.log(`---fetch all `)
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=-1`);
-    console.log(`---fetch all done`)
+export async function drawCards(cardCount = 1) {
+    const deckID = fromLocalStorage();
+    const response = await fetch(`http://deckofcardsapi.com/api/deck/` + deckID +`/draw/?count=` + cardCount);
     const data = await response.json();
-    console.log(`---fetch all done `, {data})
-    return data.results.map(p => ({id: getIdFromUrl(p.url), name: p.name}));
+    return { cards: data.cards };
 }
