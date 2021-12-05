@@ -23,7 +23,7 @@ export function GameProvider(props) {
         toLocalStorage(deck.id);
         const cards = await drawCards(2);
         setHand(cards.cards);
-        const bankCards = await drawCards(1);
+        const bankCards = await drawCards();
         setBankHand(bankCards.cards);
     }
 
